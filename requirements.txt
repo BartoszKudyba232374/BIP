@@ -1,0 +1,11 @@
+# BB84 simulation — dependencies
+# Tested on Python 3.12.3 (any CPython 3.9–3.13 works; 3.11 or 3.12 recommended)
+#
+# Install:   pip install -r requirements.txt
+# Run:       jupyter lab   (or: jupyter notebook)   then open bb84_simulation.ipynb
+#            and run all cells top to bottom (~30s; the quantum phase is the slow part).
+
+qiskit>=2.0,<3.0      # QuantumCircuit + Statevector (statevector lives in qiskit.quantum_info)
+numpy>=1.24
+matplotlib>=3.7
+jupyterlab>=4.0       # or: notebook>=7.0  — provides the Jupyter runtime
