@@ -14,7 +14,6 @@ interface BitCardProps {
   gate: string;
   stateLabel: string;
   state: string;
-  muted?: boolean;
   outcome?: "match" | "discarded" | "error";
 }
 
@@ -29,13 +28,12 @@ function InfoLine({ label, value, mono }: InfoLineProps) {
   );
 }
 
-function BitCard({ className, title, bit, gate, stateLabel, state, muted, outcome }: BitCardProps) {
+function BitCard({ className, title, bit, gate, stateLabel, state, outcome }: BitCardProps) {
   const cardCls = [
     "card",
     "party",
     "bit-card",
     className,
-    muted ? "muted-card" : "",
     outcome ? `outcome-${outcome}` : "",
   ]
     .join(" ")
@@ -71,19 +69,24 @@ export default function Stage({ q }: { q: QubitTrace }) {
           outcome={outcome}
         />
 
-        <div className="arrow">&rarr;</div>
+        {eve.intercepted ? (
+          <>
+            <div className="arrow">&rarr;</div>
 
-        <BitCard
-          className="channel"
-          title={eve.intercepted ? "Eve intercepts" : "Eve"}
-          bit={eve.intercepted ? String(eve.measured) : "Off"}
-          gate={eve.intercepted ? basisLabel(eve.basis!) : "No gate"}
-          stateLabel={eve.intercepted ? "Qubit re-sent" : "Channel"}
-          state={eve.intercepted ? eve.resent_state! : q.noise_flip ? "noise flip" : "undisturbed"}
-          muted={!eve.intercepted}
-        />
+            <BitCard
+              className="channel"
+              title="Eve intercepts"
+              bit={String(eve.measured)}
+              gate={basisLabel(eve.basis!)}
+              stateLabel="Qubit re-sent"
+              state={eve.resent_state!}
+            />
 
-        <div className="arrow">&rarr;</div>
+            <div className="arrow">&rarr;</div>
+          </>
+        ) : (
+          <div className="arrow">&rarr;</div>
+        )}
 
         <BitCard
           className="bob"

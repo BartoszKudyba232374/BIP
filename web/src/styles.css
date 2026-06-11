@@ -275,11 +275,6 @@ button:disabled {
   color: var(--bob);
 }
 
-.bit-card.muted-card .bit-display {
-  color: var(--muted);
-  font-size: 2.8rem;
-}
-
 .basis-gate {
   display: flex;
   justify-content: space-between;
