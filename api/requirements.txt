@@ -1,0 +1,4 @@
+qiskit>=2.0,<3.0
+numpy>=1.24
+fastapi>=0.110
+uvicorn[standard]>=0.29
