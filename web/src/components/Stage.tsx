@@ -79,7 +79,6 @@ export default function Stage({ q }: { q: QubitTrace }) {
           bit={String(q.bob_bit)}
           gate={basisLabel(q.bob_basis)}
           stateLabel="Received"
-          state={q.noise_flip ? "flipped by noise" : "no noise flip"}
         />
       </div>
 

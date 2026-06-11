@@ -44,7 +44,7 @@ export default function Controls({
           onChange={(e) => onSpeed(Number(e.target.value))}
         />
       </label>
-      <button onClick={onSkip}>Skip to results &nearr;</button>
+      <button onClick={onSkip}>Skip to results</button>
     </div>
   );
 }

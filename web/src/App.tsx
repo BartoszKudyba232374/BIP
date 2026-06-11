@@ -81,14 +81,11 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <h1>BB84 walkthrough</h1>
-        <p className="subtitle">Step through one photon at a time and watch the key form.</p>
       </header>
 
       <ConfigBar params={params} onChange={setParams} onRun={handleRun} loading={loading} />
 
       {error && <div className="banner banner-error">Error: {error}</div>}
-
-      {!result && !loading && <p className="hint">Set parameters and press Run to simulate.</p>}
 
       {result && view === "walkthrough" && current && (
         <>
