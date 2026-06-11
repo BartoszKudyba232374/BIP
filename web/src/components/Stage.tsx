@@ -15,6 +15,7 @@ interface BitCardProps {
   stateLabel: string;
   state: string;
   muted?: boolean;
+  outcome?: "match" | "discarded" | "error";
 }
 
 function InfoLine({ label, value, mono }: InfoLineProps) {
@@ -28,8 +29,17 @@ function InfoLine({ label, value, mono }: InfoLineProps) {
   );
 }
 
-function BitCard({ className, title, bit, gate, stateLabel, state, muted }: BitCardProps) {
-  const cardCls = ["card", "party", "bit-card", className, muted ? "muted-card" : ""].join(" ").trim();
+function BitCard({ className, title, bit, gate, stateLabel, state, muted, outcome }: BitCardProps) {
+  const cardCls = [
+    "card",
+    "party",
+    "bit-card",
+    className,
+    muted ? "muted-card" : "",
+    outcome ? `outcome-${outcome}` : "",
+  ]
+    .join(" ")
+    .trim();
 
   return (
     <div className={cardCls}>
@@ -46,6 +56,7 @@ function BitCard({ className, title, bit, gate, stateLabel, state, muted }: BitC
 
 export default function Stage({ q }: { q: QubitTrace }) {
   const eve = q.eve;
+  const outcome = q.is_error ? "error" : q.matched ? "match" : "discarded";
 
   return (
     <div className="stage-wrap">
@@ -57,6 +68,7 @@ export default function Stage({ q }: { q: QubitTrace }) {
           gate={basisLabel(q.alice_basis)}
           stateLabel="Qubit sent"
           state={q.sent_state}
+          outcome={outcome}
         />
 
         <div className="arrow">&rarr;</div>
@@ -79,6 +91,8 @@ export default function Stage({ q }: { q: QubitTrace }) {
           bit={String(q.bob_bit)}
           gate={basisLabel(q.bob_basis)}
           stateLabel="Received"
+          state={q.noise_flip ? "flipped by noise" : "no noise flip"}
+          outcome={outcome}
         />
       </div>
 

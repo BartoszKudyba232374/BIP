@@ -190,6 +190,27 @@ button:disabled {
   min-width: 0;
   min-height: 240px;
   flex-direction: column;
+  transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.bit-card.outcome-match {
+  background: color-mix(in srgb, var(--ok-bg) 42%, var(--surface));
+  border-color: color-mix(in srgb, var(--ok-text) 34%, var(--border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ok-text) 12%, transparent);
+}
+
+.bit-card.outcome-discarded {
+  background: color-mix(in srgb, var(--warn-bg) 46%, var(--surface));
+  border-color: color-mix(in srgb, var(--warn-text) 36%, var(--border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--warn-text) 12%, transparent);
+}
+
+.bit-card.outcome-error {
+  background: color-mix(in srgb, var(--err-bg) 72%, var(--surface));
+  border-color: color-mix(in srgb, var(--err-text) 78%, var(--border));
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--err-text) 28%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--err-text) 12%, transparent);
 }
 
 .card-title {
@@ -208,6 +229,21 @@ button:disabled {
 
 .party.bob .card-title {
   color: var(--bob);
+}
+
+.bit-card.outcome-match .card-title,
+.bit-card.outcome-match .bit-display {
+  color: var(--ok-text);
+}
+
+.bit-card.outcome-discarded .card-title,
+.bit-card.outcome-discarded .bit-display {
+  color: var(--warn-text);
+}
+
+.bit-card.outcome-error .card-title,
+.bit-card.outcome-error .bit-display {
+  color: var(--err-text);
 }
 
 .arrow {
@@ -254,6 +290,21 @@ button:disabled {
   border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 1rem;
+}
+
+.bit-card.outcome-match .basis-gate,
+.bit-card.outcome-match .info-line {
+  border-color: color-mix(in srgb, var(--ok-text) 18%, var(--border));
+}
+
+.bit-card.outcome-discarded .basis-gate,
+.bit-card.outcome-discarded .info-line {
+  border-color: color-mix(in srgb, var(--warn-text) 20%, var(--border));
+}
+
+.bit-card.outcome-error .basis-gate,
+.bit-card.outcome-error .info-line {
+  border-color: color-mix(in srgb, var(--err-text) 22%, var(--border));
 }
 
 .basis-gate strong {
