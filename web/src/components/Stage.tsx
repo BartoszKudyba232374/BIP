@@ -1,19 +1,45 @@
 import type { QubitTrace } from "../types";
 import { basisLabel } from "../format";
 
-interface RowProps {
+interface InfoLineProps {
   label: string;
   value: string;
-  pill?: boolean;
   mono?: boolean;
 }
 
-function Row({ label, value, pill, mono }: RowProps) {
-  const cls = ["row-value", pill ? "pill" : "", mono ? "mono" : ""].join(" ").trim();
+interface BitCardProps {
+  className: string;
+  title: string;
+  bit: string;
+  gate: string;
+  stateLabel: string;
+  state: string;
+  muted?: boolean;
+}
+
+function InfoLine({ label, value, mono }: InfoLineProps) {
+  const valueCls = ["info-value", mono ? "mono" : ""].join(" ").trim();
+
   return (
-    <div className="row">
-      <span className="row-label">{label}</span>
-      <span className={cls}>{value}</span>
+    <div className="info-line">
+      <span className="info-label">{label}</span>
+      <span className={valueCls}>{value}</span>
+    </div>
+  );
+}
+
+function BitCard({ className, title, bit, gate, stateLabel, state, muted }: BitCardProps) {
+  const cardCls = ["card", "party", "bit-card", className, muted ? "muted-card" : ""].join(" ").trim();
+
+  return (
+    <div className={cardCls}>
+      <div className="card-title">{title}</div>
+      <div className="bit-display">{bit}</div>
+      <div className="basis-gate">
+        <span>Basis gate</span>
+        <strong>{gate}</strong>
+      </div>
+      <InfoLine label={stateLabel} value={state} mono />
     </div>
   );
 }
@@ -24,36 +50,37 @@ export default function Stage({ q }: { q: QubitTrace }) {
   return (
     <div className="stage-wrap">
       <div className="stage">
-        <div className="card party alice">
-          <div className="card-title">Alice</div>
-          <Row label="Bit" value={String(q.alice_bit)} />
-          <Row label="Basis" value={basisLabel(q.alice_basis)} pill />
-          <Row label="Sends" value={q.sent_state} mono />
-        </div>
+        <BitCard
+          className="alice"
+          title="Alice"
+          bit={String(q.alice_bit)}
+          gate={basisLabel(q.alice_basis)}
+          stateLabel="Qubit sent"
+          state={q.sent_state}
+        />
 
         <div className="arrow">&rarr;</div>
 
-        <div className="card party channel">
-          <div className="card-title">{eve.intercepted ? "Channel \u00b7 Eve intercepts" : "Channel"}</div>
-          {eve.intercepted ? (
-            <>
-              <Row label="Eve basis" value={basisLabel(eve.basis!)} pill />
-              <Row label="Eve measures" value={String(eve.measured)} />
-              <Row label="Re-sends" value={eve.resent_state!} mono />
-            </>
-          ) : (
-            <Row label="Status" value={q.noise_flip ? "noise flip" : "undisturbed"} />
-          )}
-        </div>
+        <BitCard
+          className="channel"
+          title={eve.intercepted ? "Eve intercepts" : "Eve"}
+          bit={eve.intercepted ? String(eve.measured) : "Off"}
+          gate={eve.intercepted ? basisLabel(eve.basis!) : "No gate"}
+          stateLabel={eve.intercepted ? "Qubit re-sent" : "Channel"}
+          state={eve.intercepted ? eve.resent_state! : q.noise_flip ? "noise flip" : "undisturbed"}
+          muted={!eve.intercepted}
+        />
 
         <div className="arrow">&rarr;</div>
 
-        <div className="card party bob">
-          <div className="card-title">Bob</div>
-          <Row label="Basis" value={basisLabel(q.bob_basis)} pill />
-          <Row label="Measures" value={String(q.bob_bit)} />
-          <Row label="Noise" value={q.noise_flip ? "flipped" : "none"} />
-        </div>
+        <BitCard
+          className="bob"
+          title="Bob"
+          bit={String(q.bob_bit)}
+          gate={basisLabel(q.bob_basis)}
+          stateLabel="Received"
+          state={q.noise_flip ? "flipped by noise" : "no noise flip"}
+        />
       </div>
 
       <div className={`verdict ${q.matched ? "kept" : "discarded"}`}>

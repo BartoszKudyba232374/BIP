@@ -178,17 +178,24 @@ button:disabled {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px;
+  padding: 16px;
 }
 
 .card.party.channel {
   flex: 1.1;
 }
 
+.bit-card {
+  display: flex;
+  min-width: 0;
+  min-height: 240px;
+  flex-direction: column;
+}
+
 .card-title {
   font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .party.alice .card-title {
@@ -210,31 +217,88 @@ button:disabled {
   font-size: 1.2rem;
 }
 
-.row {
+.bit-display {
+  display: flex;
+  min-height: 104px;
+  align-items: center;
+  justify-content: center;
+  font-size: 5.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.party.alice .bit-display {
+  color: var(--alice);
+}
+
+.party.channel .bit-display {
+  color: var(--eve);
+}
+
+.party.bob .bit-display {
+  color: var(--bob);
+}
+
+.bit-card.muted-card .bit-display {
+  color: var(--muted);
+  font-size: 2.8rem;
+}
+
+.basis-gate {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
-  padding: 4px 0;
+  gap: 12px;
+  margin-top: auto;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 1rem;
 }
 
-.row-label {
+.basis-gate strong {
+  color: var(--text);
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.info-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 0.92rem;
+}
+
+.info-label {
   color: var(--muted);
 }
 
-.row-value {
-  font-weight: 500;
+.info-value {
+  min-width: 0;
+  text-align: right;
+  font-weight: 600;
 }
 
-.row-value.pill {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  padding: 1px 8px;
-  border-radius: 6px;
-}
-
-.row-value.mono {
+.info-value.mono {
   font-family: var(--mono);
+}
+
+@media (max-width: 760px) {
+  .stage {
+    flex-direction: column;
+  }
+
+  .arrow {
+    justify-content: center;
+    transform: rotate(90deg);
+  }
+
+  .bit-card {
+    min-height: 220px;
+  }
 }
 
 .verdict {
